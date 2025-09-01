@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Microbiome-Focused Skincare Formula</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 min-h-screen font-sans">
+  <div class="max-w-4xl mx-auto p-6">
+    <h1 class="text-3xl font-bold text-center mb-6">🧫 Microbiome Skincare Builder</h1>
+    <div class="mb-6 bg-blue-50 p-4 rounded-lg border border-blue-200">
+      <p class="text-sm text-blue-800">Our formulations are designed to balance your skin's microbiome while addressing specific concerns. Based on cutting-edge research in skin microbiology.</p>
+    </div>
+ <form id="skincareForm" class="space-y-6">
+    <!-- Your form elements here -->
+    <div class="grid md:grid-cols-2 gap-6">
+      <div>
+        <label class="block text-lg font-semibold mb-1">Skin pH Level</label>
+        <select id="ph" class="w-full border border-gray-300 p-2 rounded">
+          <option value="">Select your skin's pH...</option>
+          <option value="acidic">Acidic (4.5-5.5)</option>
+          <option value="neutral">Neutral (5.5-6.5)</option>
+          <option value="alkaline">Alkaline (6.5+)</option>
+        </select>
+        <p class="text-xs text-gray-500 mt-1">Your skin's pH affects which microorganisms thrive</p>
+      </div>
+      
+      <div>
+        <label class="block text-lg font-semibold mb-1">Main Skin Concern</label>
+        <select id="concern" class="w-full border border-gray-300 p-2 rounded">
+          <option value="">Select your concern...</option>
+          <option value="hydration">Dehydration</option>
+          <option value="inflammation">Inflammation/Redness</option>
+          <option value="acne">Acne/Breakouts</option>
+          <option value="sensitivity">Sensitivity/Irritation</option>
+          <option value="aging">Anti-Aging/Wrinkles</option>
+        </select>
+      </div>
+    </div>
+    
+    <!-- Additional form fields for microbiome, texture, botanical focus, etc. -->
+    <div>
+      <label class="block text-lg font-semibold mb-2">Microbiome Imbalance Concern</label>
+      <div class="grid md:grid-cols-3 gap-4">
+        <div class="bg-white p-4 rounded border hover:border-blue-400 cursor-pointer">
+          <input type="checkbox" id="saureus" name="microbiome" value="saureus" class="mr-2">
+          <label for="saureus" class="font-medium">S. aureus</label>
+          <p class="text-xs text-gray-500 mt-1">Associated with eczema, inflammation, and infection</p>
+        </div>
+        <div class="bg-white p-4 rounded border hover:border-blue-400 cursor-pointer">
+          <input type="checkbox" id="malassezia" name="microbiome" value="malassezia" class="mr-2">
+          <label for="malassezia" class="font-medium">Malassezia restricta</label>
+          <p class="text-xs text-gray-500 mt-1">Associated with dandruff, seborrheic dermatitis</p>
+        </div>
+        <div class="bg-white p-4 rounded border hover:border-blue-400 cursor-pointer">
+          <input type="checkbox" id="pacnes" name="microbiome" value="pacnes" class="mr-2">
+          <label for="pacnes" class="font-medium">P. acnes</label>
+          <p class="text-xs text-gray-500 mt-1">Associated with acne and inflammation</p>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <label class="block text-lg font-semibold mb-1">Supporting Beneficial Microbiome</label>
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="bg-white p-4 rounded border hover:border-blue-400 cursor-pointer">
+          <input type="checkbox" id="sepidermidis" name="beneficial" value="sepidermidis" class="mr-2">
+          <label for="sepidermidis" class="font-medium">S. epidermidis</label>
+          <p class="text-xs text-gray-500 mt-1">Helpful commensal bacteria that supports skin barrier</p>
+        </div>
+        <div class="bg-white p-4 rounded border hover:border-blue-400 cursor-pointer">
+          <input type="checkbox" id="lactobacillus" name="beneficial" value="lactobacillus" class="mr-2">
+          <label for="lactobacillus" class="font-medium">Lactobacillus species</label>
+          <p class="text-xs text-gray-500 mt-1">Helps maintain acidic pH and prevent pathogen growth</p>
+        </div>
+      </div>
+    </div>
+    
+    <div>
+      <label class="block text-lg font-semibold mb-1">Preferred Texture</label>
+      <select id="texture" class="w-full border border-gray-300 p-2 rounded">
+        <option value="">Select texture preference...</option>
+        <option value="gel">Light gel (for oily skin)</option>
+        <option value="cream">Rich cream (for dry skin)</option>
+        <option value="lotion">Balancing lotion (for combination skin)</option>
+        <option value="serum">Concentrated serum (for targeted treatment)</option>
+        <option value="toner">Hydrating toner (for prep step)</option>
+      </select>
+    </div>
+
+    <div>
+      <label class="block text-lg font-semibold mb-1">Botanical Focus</label>
+      <select id="botanical" class="w-full border border-gray-300 p-2 rounded">
+        <option value="">Select botanical preference...</option>
+        <option value="asian">Asian botanicals</option>
+        <option value="european">European botanicals</option>
+        <option value="ayurvedic">Ayurvedic botanicals</option>
+        <option value="modern">Modern extracts</option>
+      </select>
+    </div>
+    
+    <button type="button" onclick="recommendFormula()" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded hover:bg-blue-700 transition">
+      🧪 Generate My Microbiome-Balancing Formula
+    </button>
+  </form>
+  
+  <!-- Result display -->
+  <div id="result" class="mt-8 bg-white p-6 rounded-lg shadow-md hidden">
+    <h2 class="text-2xl font-semibold mb-4">Your Personalized Microbiome Formula</h2>
+    <p id="formulaName" class="text-lg font-medium text-blue-600 mb-4"></p>
+    
+    <div class="mb-6">
+      <h3 class="text-lg font-medium mb-2">Base Formulation:</h3>
+      <p id="base" class="text-gray-700 bg-gray-50 p-3 rounded"></p>
+    </div>
+    
+    <div class="mb-6">
+      <h3 class="text-lg font-medium mb-2">pH Balancing Ingredients:</h3>
+      <p id="phIngredients" class="text-gray-700 bg-gray-50 p-3 rounded"></p>
+    </div>
+    
+    <div class="mb-6">
+      <h3 class="text-lg font-medium mb-2">Microbiome Active Ingredients:</h3>
+      <ul id="microbiomeActives" class="list-disc list-inside text-gray-700 bg-gray-50 p-3 rounded"></ul>
+    </div>
+    
+    <div class="mb-6">
+      <h3 class="text-lg font-medium mb-2">Targeted Treatment Actives:</h3>
+      <ul id="concernActives" class="list-disc list-inside text-gray-700 bg-gray-50 p-3 rounded"></ul>
+    </div>
+    
+    <div class="mb-6">
+      <h3 class="text-lg font-medium mb-2">Botanical Extracts:</h3>
+      <ul id="botanicalExtracts" class="list-disc list-inside text-gray-700 bg-gray-50 p-3 rounded"></ul>
+    </div>
+    
+    <div class="mt-6">
+      <a href="#" class="inline-block bg-green-600 text-white py-2 px-6 rounded-lg hover:bg-green-700 transition">
+        Order Your Custom Formula
+      </a>
+      <button onclick="document.getElementById('result').classList.add('hidden')" class="ml-4 text-gray-500 hover:text-gray-700">
+        Edit Selections
+      </button>
+    </div>
+  </div>
+
+  <!-- Signature formulations section (optional) -->
+  <div class="mt-10 bg-white p-6 rounded-lg shadow-md">
+    <h2 class="text-2xl font-semibold mb-4">Explore Our Signature Formulations</h2>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="bg-gray-50 p-4 rounded border border-gray-200">
+        <h3 class="font-medium text-blue-600">Barrier Restore Complex</h3>
+        <p class="text-sm text-gray-600 mt-1">For sensitive, compromised skin barriers</p>
+        <ul class="text-xs text-gray-500 mt-2 list-disc list-inside">
+          <li>Ceramide Complex with Centella Asiatica</li>
+          <li>Supports S. epidermidis colonies</li>
+          <li>Rich cream texture, pH 5.0-5.5</li>
+        </ul>
+      </div>
+      
+      <div class="bg-gray-50 p-4 rounded border border-gray-200">
+        <h3 class="font-medium text-blue-600">Clarifying Microbiome Essence</h3>
+        <p class="text-sm text-gray-600 mt-1">For acne-prone, oily skin</p>
+        <ul class="text-xs text-gray-500 mt-2 list-disc list-inside">
+          <li>Salicylic Acid & Niacinamide Complex</li>
+          <li>Targets P. acnes overgrowth</li>
+          <li>Light gel texture, pH 4.5-5.0</li>
+        </ul>
+      </div>
+      
+      <div class="bg-gray-50 p-4 rounded border border-gray-200">
+        <h3 class="font-medium text-blue-600">Advanced Hydration Solution</h3>
+        <p class="text-sm text-gray-600 mt-1">For dehydrated, dull skin</p>
+        <ul class="text-xs text-gray-500 mt-2 list-disc list-inside">
+          <li>Multi-MW Hyaluronic Acids</li>
+          <li>Prebiotic support for microbiome</li>
+          <li>Serum texture, pH 5.5-6.0</li>
+        </ul>
+      </div>
+      
+      <div class="bg-gray-50 p-4 rounded border border-gray-200">
+        <h3 class="font-medium text-blue-600">Calming Microbiome Mask</h3>
+        <p class="text-sm text-gray-600 mt-1">For red, inflamed skin</p>
+        <ul class="text-xs text-gray-500 mt-2 list-disc list-inside">
+          <li>Licorice Root & Green Tea Complex</li>
+          <li>Reduces S. aureus colonization</li>
+          <li>Gel-cream texture, pH 5.0-5.5</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Sample formulations data used by the form
+  const formulations = [
+    {
+      name: "Barrier Restore Elixir",
+      base: {
+        gel: "Aloe Vera Leaf Juice Base with Hyaluronic Acid (pH 5.0-5.5)",
+        cream: "Shea Butter Cream Base with Ceramides (pH 5.0-5.5)",
+        lotion: "Light Emulsion Base with D-Panthenol (pH 5.0-5.5)",
+        serum: "Hydrating Serum Base with Sodium PCA (pH 5.0-5.5)",
+        toner: "Rose Water Base with Glycerin (pH 5.0-5.5)"
+      },
+      ph: {
+        acidic: "Your skin has a healthy acidic pH. We've included Lactic Acid (1%) and Sodium Lactate (2%) to maintain this optimal pH range.",
+        neutral: "We've added Apple Cider Vinegar Extract (0.5%) and Lactic Acid (1%) to help restore your skin's acid mantle.",
+        alkaline: "To restore your skin's natural pH, we've included Citric Acid (0.7%) and Lactic Acid (1.2%) to rebalance your ecosystem."
+      },
+      microbiome: {
+        saureus: ["Houttuynia Cordata Extract (3%) - Inhibits S. aureus", "Willow Herb Extract (2%) - Targets S. aureus"],
+        malassezia: ["Tea Tree Oil (1%) - Antifungal for Malassezia", "Salicylic Acid (1%) - Controls overgrowth"],
+        pacnes: ["Bakuchiol (1%) - Targets P. acnes", "Green Tea Extract (2%) - Reduces inflammation"]
+      },
+      beneficial: {
+        sepidermidis: ["Prebiotic Complex (2%) - Feeds beneficial S. epidermidis", "Lactobacillus Ferment (3%) - Supports skin microbiome"],
+        lactobacillus: ["Lactobacillus Ferment Lysate (4%) - Boosts Lactobacillus", "Galactomyces Ferment Filtrate (2%) - Nourishes probiotic bacteria"]
+      },
+      concern: {
+        hydration: ["D-Panthenol (2%) - Deep hydration", "Aloe Vera Leaf Juice (3%) - Soothing hydration", "Adenosine (0.1%) - Moisture enhancement"],
+        inflammation: ["Centella Asiatica Extract (4%) - Reduces redness", "Chamomile Extract (2%) - Soothes skin", "Licorice Root Extract (1%) - Anti-inflammatory"],
+        acne: ["Niacinamide (4%) - Regulates sebum", "Zinc PCA (1%) - Controls oil", "Salicylic Acid (1.5%) - Unclogs pores"],
+        sensitivity: ["Centella Asiatica Extract (3%) - Heals", "Chamomile Extract (2%) - Calms irritation", "Aloe Vera Leaf Juice (4%) - Soothes immediately"],
+        aging: ["Bakuchiol (1%) - Natural retinol alternative", "Centella Asiatica Extract (3%) - Supports collagen", "Niacinamide (4%) - Improves texture"]
+      },
+      botanical: {
+        asian: ["Scutellaria Baicalensis Root Extract (1%)", "Ginseng Extract (1.5%)", "Peony Extract (1%)"],
+        european: ["Witch Hazel Extract (1%)", "Calendula Flower Extract (1.5%)", "Melissa Extract (1%)"],
+        ayurvedic: ["Tinospora Cordifolia Extract (1%)", "Centella Asiatica Extract (1.5%)", "Neem Extract (1%)"],
+        modern: ["Bakuchiol (1%)", "Galactomyces Ferment Filtrate (2%)", "Niacinamide (2%)"]
+      }
+    },
+    {
+      name: "Clear Skin Microbiome Solution",
+      base: {
+        gel: "Cucumber Extract Base with Aloe Vera (pH 4.5-5.0)",
+        cream: "Jojoba Oil Cream with Squalane (pH 4.5-5.0)",
+        lotion: "Balancing Lotion with Niacinamide (pH 4.5-5.0)",
+        serum: "Lightweight Serum with Amino Acids (pH 4.5-5.0)",
+        toner: "Witch Hazel Extract Base with Aloe (pH 4.5-5.0)"
+      },
+      ph: {
+        acidic: "Your skin has a healthy acidic pH. We've included Salicylic Acid (1%) and Lactic Acid (1%) for balance.",
+        neutral: "We've added Lactic Acid (1.2%) and Salicylic Acid (0.5%) to restore your acid mantle.",
+        alkaline: "To restore your pH, we've included Salicylic Acid (1.5%) and Citric Acid (0.7%)."
+      },
+      microbiome: {
+        saureus: ["Tea Tree Oil (1%) - Targets S. aureus", "Willow Herb Extract (2%) - Reduces colonization"],
+        malassezia: ["Salicylic Acid (1.5%) - Controls growth", "Tea Tree Oil (1%) - Antifungal"],
+        pacnes: ["Salicylic Acid (1.5%) - Exfoliates P. acnes", "Green Tea Extract (2%) - Reduces inflammation"]
+      },
+      beneficial: {
+        sepidermidis: ["Prebiotic Complex (2%) - Feeds beneficial S. epidermidis", "Lactobacillus Ferment (3%) - Supports microbiome"],
+        lactobacillus: ["Lactobacillus Ferment Lysate (3%) - Supports Lactobacillus", "Galactomyces Ferment Filtrate (2%) - Nourishes probiotics"]
+      },
+      concern: {
+        hydration: ["Hyaluronic Acid (1%) - Intense hydration", "Aloe Vera Leaf Juice (3%) - Soothing hydration", "Glycerin (3%) - Humectant"],
+        inflammation: ["Licorice Root Extract (2%) - Anti-inflammatory", "Centella Asiatica Extract (3%) - Reduces redness", "Green Tea Extract (2%) - Antioxidant"],
+        acne: ["Salicylic Acid (1.5%) - Unclogs pores", "Niacinamide (4%) - Regulates sebum", "Zinc PCA (1%) - Controls oil"],
+        sensitivity: ["Centella Asiatica Extract (3%) - Supports healing", "Chamomile Extract (2%) - Calms irritation", "Aloe Vera Leaf Juice (4%) - Soothes immediately"],
+        aging: ["Niacinamide (4%) - Improves texture", "Green Tea Extract (2%) - Antioxidant", "Bakuchiol (0.5%) - Retinol alternative"]
+      },
+      botanical: {
+        asian: ["Green Tea Extract (2%)", "Ginseng Extract (1%)", "Scutellaria Extract (1%)"],
+        european: ["Chamomile Extract (2%)", "Rosemary Extract (1%)", "Calendula Flower Extract (1%)"],
+        ayurvedic: ["Neem Extract (1%)", "Tulsi Extract (1%)", "Turmeric Extract (0.5%)"],
+        modern: ["Salicylic Acid (1.5%)", "Niacinamide (4%)", "Zinc PCA (1%)"]
+      }
+    },
+    {
+      name: "Calm & Balance Microbiome Serum",
+      base: {
+        gel: "Aloe Vera Gel Base with Cucumber Extract (pH 5.0-5.5)",
+        cream: "Centella Cream Base with Ceramides (pH 5.0-5.5)",
+        lotion: "Soothing Lotion with Panthenol (pH 5.0-5.5)",
+        serum: "Concentrated Serum with Glycerin (pH 5.0-5.5)",
+        toner: "Chamomile Extract Base with Allantoin (pH 5.0-5.5)"
+      },
+      ph: {
+        acidic: "Your skin has a healthy acidic pH. We've included Lactic Acid (0.5%) and Sodium Lactate (2%) for balance.",
+        neutral: "We've added Lactic Acid (0.8%) and Apple Cider Vinegar Extract (0.5%) to restore your pH.",
+        alkaline: "To restore pH balance, we've included Lactic Acid (1%) and Citric Acid (0.5%)."
+      },
+      microbiome: {
+        saureus: ["Houttuynia Cordata Extract (2%) - Inhibits S. aureus", "Centella Extract (3%) - Reduces inflammation"],
+        malassezia: ["Tea Tree Oil (0.5%) - Targets Malassezia", "Salicylic Acid (0.5%) - Controls overgrowth"],
+        pacnes: ["Green Tea Extract (2%) - Reduces P. acnes inflammation", "Willow Herb Extract (1.5%) - Natural anti-inflammatory"]
+      },
+      beneficial: {
+        sepidermidis: ["Prebiotic Complex (2%) - Feeds S. epidermidis", "Galactomyces Ferment Filtrate (3%) - Balances skin microbiome"],
+        lactobacillus: ["Lactobacillus Ferment Lysate (3%) - Boosts Lactobacillus", "Inulin (1%) - Prebiotic nourishment"]
+      },
+      concern: {
+        hydration: ["Hyaluronic Acid (1%) - Deep hydration", "Glycerin (3%) - Humectant", "Aloe Vera Leaf Juice (4%) - Soothes and hydrates"],
+        inflammation: ["Centella Asiatica Extract (4%) - Calms redness", "Chamomile Extract (3%) - Soothes irritation", "Licorice Root Extract (2%) - Anti-inflammatory"],
+        acne: ["Niacinamide (3%) - Regulates sebum", "Green Tea Extract (2%) - Anti-inflammatory", "Willow Herb Extract (1.5%) - Calms irritation"],
+        sensitivity: ["Centella Asiatica Extract (4%) - Supports healing", "Chamomile Extract (3%) - Calms irritation", "Aloe Vera Leaf Juice (4%) - Soothes instantly"],
+        aging: ["Niacinamide (3%) - Improves texture", "Centella Asiatica Extract (4%) - Supports collagen", "Green Tea Extract (2%) - Antioxidant"]
+      },
+      botanical: {
+        asian: ["Centella Extract (4%)", "Green Tea Extract (2%)", "Ginseng Extract (1%)"],
+        european: ["Chamomile Extract (3%)", "Calendula Flower Extract (2%)", "Melissa Extract (1%)"],
+        ayurvedic: ["Gotu Kola Extract (4%)", "Tulsi Extract (1.5%)", "Neem Extract (0.5%)"],
+        modern: ["Centella Extract (4%)", "Niacinamide (3%)", "Chamomile Extract (3%)"]
+      }
+    },
+    {
+      name: "Hydra-Biome Booster",
+      base: {
+        gel: "Cucumber Gel Base with Hyaluronic Acid (pH 5.5-6.0)",
+        cream: "Shea Butter Cream with Squalane (pH 5.5-6.0)",
+        lotion: "Hydrating Lotion with Panthenol (pH 5.5-6.0)",
+        serum: "Hydrating Serum with Glycerin (pH 5.5-6.0)",
+        toner: "Rose Water Base with Hyaluronic Acid (pH 5.5-6.0)"
+      },
+      ph: {
+        acidic: "Your skin has a healthy acidic pH. We've included Sodium Lactate (2%) and Lactic Acid (0.5%).",
+        neutral: "Your skin has a balanced pH. We've included Sodium PCA (1%) and Lactic Acid (0.3%).",
+        alkaline: "To restore your pH, we've added Lactic Acid (0.8%) and Citric Acid (0.4%)."
+      },
+      microbiome: {
+        saureus: ["Osmanthus Extract (2%) - Reduces S. aureus", "Willow Herb Extract (1.5%) - Natural antimicrobial"],
+        malassezia: ["Salicylic Acid (0.5%) - Controls Malassezia", "Tea Tree Oil (0.5%) - Antifungal"],
+        pacnes: ["Salicylic Acid (0.5%) - Controls P. acnes", "Willow Herb Extract (1.5%) - Soothes inflammation"]
+      },
+      beneficial: {
+        sepidermidis: ["Prebiotic Complex (2.5%) - Feeds S. epidermidis", "Galactomyces Ferment Filtrate (3%) - Enhances microbiome"],
+        lactobacillus: ["Lactobacillus Ferment Lysate (4%) - Boosts beneficial bacteria", "Inulin (1.5%) - Prebiotic support"]
+      },
+      concern: {
+        hydration: ["Hyaluronic Acid (1.5%) - Deep hydration", "Glycerin (3%) - Strong humectant", "Aloe Vera Leaf Juice (3%) - Soothing hydration"],
+        inflammation: ["Centella Extract (3%) - Reduces redness", "Chamomile Extract (2%) - Calms irritation", "Licorice Extract (1.5%) - Anti-inflammatory"],
+        acne: ["Niacinamide (3%) - Regulates sebum", "Zinc PCA (0.5%) - Balances oil", "Willow Herb Extract (1.5%) - Calms irritation"],
+        sensitivity: ["Centella Extract (3%) - Soothes sensitivity", "Chamomile Extract (2%) - Calms irritation", "Aloe Vera Leaf Juice (3%) - Provides relief"],
+        aging: ["Niacinamide (3%) - Improves texture", "Bakuchiol (0.5%) - Natural anti-aging", "Centella Extract (3%) - Supports collagen"]
+      },
+      botanical: {
+        asian: ["Camellia Sinensis Extract (2%)", "Ginseng Extract (1.5%)", "Centella Extract (3%)"],
+        european: ["Chamomile Extract (2%)", "Melissa Extract (1.5%)", "Calendula Flower Extract (1.5%)"],
+        ayurvedic: ["Centella Extract (3%)", "Turmeric Extract (0.5%)", "Neem Extract (0.5%)"],
+        modern: ["Hyaluronic Acid (1.5%)", "Niacinamide (3%)", "Bakuchiol (0.5%)"]
+      }
+    },
+    {
+      name: "Radiance Microbiome Complex",
+      base: {
+        gel: "Aloe Vera Gel Base with Niacinamide (pH 5.0-5.5)",
+        cream: "Ceramide Cream with Squalane (pH 5.0-5.5)",
+        lotion: "Brightening Lotion with Vitamin C (pH 5.0-5.5)",
+        serum: "Concentrated Serum with Niacinamide (pH 5.0-5.5)",
+        toner: "Licorice Extract Base with Glycerin (pH 5.0-5.5)"
+      },
+      ph: {
+        acidic: "Your skin has a healthy acidic pH. We've added Lactic Acid (0.5%) and Sodium Lactate (1.5%) to maintain it.",
+        neutral: "We've included Lactic Acid (0.8%) and Apple Cider Vinegar Extract (0.5%) for pH restoration.",
+        alkaline: "To rebalance your pH, we've added Lactic Acid (1%) and Citric Acid (0.5%)."
+      },
+      microbiome: {
+        saureus: ["Houttuynia Extract (2%) - Inhibits S. aureus", "Willow Herb Extract (1.5%) - Reduces colonization"],
+        malassezia: ["Salicylic Acid (0.5%) - Controls Malassezia", "Tea Tree Oil (0.5%) - Natural antifungal"],
+        pacnes: ["Niacinamide (4%) - Controls sebum for P. acnes", "Green Tea Extract (2%) - Reduces inflammation"]
+      },
+      beneficial: {
+        sepidermidis: ["Prebiotic Complex (2%) - Supports S. epidermidis", "Lactobacillus Ferment (3%) - Enhances skin microbiome"],
+        lactobacillus: ["Lactobacillus Ferment Lysate (3%) - Boosts Lactobacillus", "Galactomyces Ferment Filtrate (2%) - Supports probiotic activity"]
+      },
+      concern: {
+        hydration: ["Hyaluronic Acid (1%) - Provides hydration", "Glycerin (3%) - Humectant", "Aloe Vera Leaf Juice (3%) - Soothes skin"],
+        inflammation: ["Centella Extract (3%) - Reduces redness", "Chamomile Extract (2%) - Soothes irritation", "Licorice Root Extract (1.5%) - Anti-inflammatory"],
+        acne: ["Salicylic Acid (1%) - Unclogs pores", "Zinc PCA (1%) - Controls oil", "Niacinamide (3%) - Reduces inflammation"],
+        sensitivity: ["Centella Extract (3%) - Strengthens barrier", "Aloe Vera Leaf Juice (3%) - Soothes irritation", "Chamomile Extract (2%) - Calms sensitivity"],
+        aging: ["Niacinamide (3%) - Improves texture", "Bakuchiol (0.5%) - Natural alternative to retinol", "Green Tea Extract (2%) - Antioxidant protection"]
+      },
+      botanical: {
+        asian: ["Green Tea Extract (2%)", "Ginseng Extract (1%)", "Scutellaria Extract (1%)"],
+        european: ["Chamomile Extract (2%)", "Calendula Extract (1.5%)", "Melissa Extract (1%)"],
+        ayurvedic: ["Neem Extract (1%)", "Tulsi Extract (1%)", "Turmeric Extract (0.5%)"],
+        modern: ["Niacinamide (3%)", "Bakuchiol (0.5%)", "Galactomyces Ferment Filtrate (2%)"]
+      }
+    }
+  ];
+
+  // Mapping for concern to formulation selection (simple example)
+  function selectFormulation(concern) {
+    switch (concern) {
+      case "hydration":
+        return formulations[3];  // Hydra-Biome Booster
+      case "inflammation":
+        return formulations[2];  // Calm & Balance Microbiome Serum
+      case "acne":
+        return formulations[1];  // Clear Skin Microbiome Solution
+      case "sensitivity":
+        return formulations[2];  // Calm & Balance Microbiome Serum
+      case "aging":
+        return formulations[4];  // Radiance Microbiome Complex
+      default:
+        return formulations[0];  // Default formulation
+    }
+  }
+
+  function recommendFormula() {
+    // Get values from form
+    const phValue = document.getElementById('ph').value;
+    const concernValue = document.getElementById('concern').value;
+    const textureValue = document.getElementById('texture').value;
+    const botanicalValue = document.getElementById('botanical').value;
+
+    // Get checked boxes
+    const microbiomeChecks = Array.from(document.querySelectorAll('input[name="microbiome"]:checked')).map(el => el.value);
+    const beneficialChecks = Array.from(document.querySelectorAll('input[name="beneficial"]:checked')).map(el => el.value);
+
+    // Validate required fields
+    if (!phValue || !concernValue || !textureValue) {
+      alert("Please select your skin pH, main concern, and preferred texture.");
+      return;
+    }
+
+    // Choose a formulation based on the user's concern
+    const formulation = selectFormulation(concernValue);
+
+    // Base info based on texture
+    const baseDetail = formulation.base[textureValue] || "Default base formulation info not available.";
+    const phDetail = formulation.ph[phValue] || "No pH-specific recommendations available.";
+
+    // Build lists based on selected checkboxes
+    let microbiomeList = [];
+    microbiomeChecks.forEach(check => {
+      if (formulation.microbiome[check]) {
+        microbiomeList = microbiomeList.concat(formulation.microbiome[check]);
+      }
+    });
+
+    let beneficialList = [];
+    beneficialChecks.forEach(check => {
+      if (formulation.beneficial[check]) {
+        beneficialList = beneficialList.concat(formulation.beneficial[check]);
+      }
+    });
+
+    // Targeted actives based on concern
+    let concernList = formulation.concern[concernValue] || [];
+
+    // Botanical extracts based on botanical focus
+    let botanicalList = [];
+    if (formulation.botanical[botanicalValue]) {
+      botanicalList = formulation.botanical[botanicalValue];
+    }
+
+    // Merge the microbiome arrays
+    const combinedMicrobiome = microbiomeList.concat(beneficialList);
+
+    // Update the UI with results
+    document.getElementById("formulaName").innerText = formulation.name;
+    document.getElementById("base").innerText = baseDetail;
+    document.getElementById("phIngredients").innerText = phDetail;
+
+    const microbiomeEl = document.getElementById("microbiomeActives");
+    microbiomeEl.innerHTML = "";
+    combinedMicrobiome.forEach(item => {
+      const li = document.createElement("li");
+      li.innerText = item;
+      microbiomeEl.appendChild(li);
+    });
+
+    const concernEl = document.getElementById("concernActives");
+    concernEl.innerHTML = "";
+    concernList.forEach(item => {
+      const li = document.createElement("li");
+      li.innerText = item;
+      concernEl.appendChild(li);
+    });
+
+    const botanicalEl = document.getElementById("botanicalExtracts");
+    botanicalEl.innerHTML = "";
+    botanicalList.forEach(item => {
+      const li = document.createElement("li");
+      li.innerText = item;
+      botanicalEl.appendChild(li);
+    });
+
+    // Show the result section
+    document.getElementById("result").classList.remove("hidden");
+    document.getElementById("result").scrollIntoView({ behavior: "smooth" });
+  }
+</script>
